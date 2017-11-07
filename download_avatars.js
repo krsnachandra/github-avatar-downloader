@@ -1,7 +1,5 @@
 const request = require('request');
-
 const secret = require('./secrets.js');
-
 const fs = require('fs');
 
 console.log('Welcome to the GitHub Avatar Downloader!');
@@ -10,10 +8,10 @@ const args = process.argv.slice(2);
 
 function getRepoContributors(repoOwner, repoName, cb) {
   if (args.length === 0) {
-    console.log('Make sure to include the owner and repository in your request! (node download_avatars.js <owner> <repo>)')
+    console.log('Make sure to include the owner and repository in your request! (node download_avatars.js <owner> <repo>)');
   } else {
     var options = {
-      url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
+      url: 'https://api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors',
       headers: {
         'User-Agent': 'request',
         'Authorization': 'token ' + secret.GITHUB_TOKEN
@@ -27,22 +25,18 @@ function getRepoContributors(repoOwner, repoName, cb) {
   }
 }
 
-function printAvatarURLs(contribArr) {
-  contribArr.forEach(function(contributor) {
-    downloadImageByURL(contributor['avatar_url'], "./avatars/" + contributor.login + ".jpeg");
-  })
-};
-
 function downloadImageByURL(url, filePath) {
   request.get(url)
-  .on('error', function (err) {
-    throw err;
-  })
-  .pipe(fs.createWriteStream(filePath))
+    .on('error', function (err) {
+      throw err;
+    })
+    .pipe(fs.createWriteStream(filePath));
 }
 
-// downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "./avatars/kvirani.jpg");
+function printAvatarURLs(contribArr) {
+  contribArr.forEach(function(contributor) {
+    downloadImageByURL(contributor['avatar_url'], './avatars/' + contributor.login + '.jpeg');
+  });
+}
 
 getRepoContributors(args[0], args[1], printAvatarURLs);
-  // console.log("Errors:", err);
-  // console.log("Result:", result);
