@@ -24,7 +24,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 function printAvatarURLs(contribArr) {
   contribArr.forEach(function(contributor) {
-    console.log(contributor['avatar_url']);
+    downloadImageByURL(contributor['avatar_url'], "./avatars/" + contributor.login + ".jpeg");
   })
 };
 
