@@ -5,7 +5,8 @@ const secret = require('./secrets.js');
 const fs = require('fs');
 
 console.log('Welcome to the GitHub Avatar Downloader!');
-// console.log(secret.GITHUB_TOKEN);
+
+const args = process.argv.slice(2);
 
 function getRepoContributors(repoOwner, repoName, cb) {
   var options = {
@@ -38,6 +39,6 @@ function downloadImageByURL(url, filePath) {
 
 // downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "./avatars/kvirani.jpg");
 
-getRepoContributors("jquery", "jquery", printAvatarURLs);
+getRepoContributors(args[0], args[1], printAvatarURLs);
   // console.log("Errors:", err);
   // console.log("Result:", result);
